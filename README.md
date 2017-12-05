@@ -1,0 +1,2 @@
+# HasKalc
+Haskell calculator
