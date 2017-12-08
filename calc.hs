@@ -1,6 +1,6 @@
 import Data.Char
 
-data Operator = Plus | Minus
+data Operator = Plus | Minus | Multiplication | Division
 data Tree i o = Leaf i | Node (Tree i o) o (Tree i o)
 
 tree :: Tree Double Operator
@@ -16,21 +16,22 @@ add (Leaf x) = x
 add (Node x Plus y) = add x + add y
 add (Node x Minus y) = add x - add y
 
--- add2 :: Int -> Double
--- add2 x = fromIntegral x
-
--- groupTerms :: [Char] -> [[Char]]
--- groupTerms s = [x | x <- s, take]
-
--- parseInts :: String -> String
--- parseInts s = filter (isDigit) s
-
 parse :: String -> [String]
-parse [] = [""]
-parse s = [(takeWhile isDigit s)] ++ [(take 1 (dropWhile isDigit s))] ++ (parse (drop 1 (dropWhile isDigit s)))
+parse (s:xs) | isDigit s = [parseNumber (s:xs)] ++ parse (dropWhile isDigit xs)
+			 | isSymbol s = [showOperator (parseOperator (s:xs))] ++ parse xs
+             | otherwise = []
 
--- takeInts :: [Char] -> [Int]
--- takeInts s = [x | x <- s]
+parseNumber :: String -> String
+parseNumber s = takeWhile isDigit s
 
--- calc :: String -> Double
--- calc x = 1
+parseOperator :: String -> Operator
+parseOperator (s:xs) | s == '+' = Plus
+                     | s == '-' = Minus
+                     | s == '*' = Multiplication
+                     | s == '/' = Division
+
+showOperator :: Operator -> String
+showOperator Plus = "+"
+showOperator Minus = "-"
+showOperator Multiplication = "*"
+showOperator Division = "/"
