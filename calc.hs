@@ -17,9 +17,17 @@ add (Node x Plus y) = add x + add y
 add (Node x Minus y) = add x - add y
 
 parse :: String -> [String] -- Wie können wir eine Liste mit Double und Operator erstellen?
+parse [] = []
 parse (s:xs) | isDigit s = [parseNumber (s:xs)] ++ parse (dropWhile isDigit xs)
-			 | isSymbol s = [showOperator (parseOperator (s:xs))] ++ parse xs
-             | otherwise = []]
+             | isSymbol s = [showOperator (parseOperator (s:xs))] ++ parse xs
+             | otherwise = []
+
+-- Second Try
+-- parse [] = []
+-- parse (s:xs) | isDigit s = res ++ parse (drop i xs)
+-- 				  where
+--                      res = [parseNumber (s:xs)]
+--                      i = ((length res) -1)
 
 parseNumber :: String -> String
 parseNumber s = takeWhile isDigit s
