@@ -16,10 +16,10 @@ add (Leaf x) = x
 add (Node x Plus y) = add x + add y
 add (Node x Minus y) = add x - add y
 
-parse :: String -> [String]
+parse :: String -> [String] -- Wie können wir eine Liste mit Double und Operator erstellen?
 parse (s:xs) | isDigit s = [parseNumber (s:xs)] ++ parse (dropWhile isDigit xs)
 			 | isSymbol s = [showOperator (parseOperator (s:xs))] ++ parse xs
-             | otherwise = []
+             | otherwise = []]
 
 parseNumber :: String -> String
 parseNumber s = takeWhile isDigit s
@@ -30,7 +30,6 @@ parseOperator (s:xs) | s == '+' = Plus
                      | s == '*' = Multiplication
                      | s == '/' = Division
 
-showOperator :: Operator -> String
 showOperator Plus = "+"
 showOperator Minus = "-"
 showOperator Multiplication = "*"
